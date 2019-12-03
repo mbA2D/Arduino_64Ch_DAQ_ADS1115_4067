@@ -1,4 +1,5 @@
-//FLASH IS NOT GOING TO WORK FOR STORING (TOO COMPLICATED, LIBRARIES DON'T WORK, so we'll plot in matplotlib and use a polynomial.
+//This code was written to get thermistor readings from Midnight Sun's prototype battery module
+//It was also me just playing around with multiple files in an arduino sketch, enums, and other good coding practices (which I likely did not follow).
 
 #include <Wire.h>
 #include <Adafruit_ADS1015.h>
