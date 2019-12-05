@@ -2,7 +2,6 @@
 //if either of those thresholds are crossed, then make warning true
 //right now this is hacky, and defined based on what is connected to the channel, not what that connected device represents - air vs cell temperature
 
-
 bool check_thresholds(int channel, int device)
 {
   if(device == NTC_NXRT15XH)
@@ -42,6 +41,3 @@ bool check_ADC_thresholds()
   }
   return false;
 }
-
-
-

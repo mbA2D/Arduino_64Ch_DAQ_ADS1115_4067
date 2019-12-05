@@ -43,76 +43,6 @@ enum{
 #define EXCITATION_VOLTAGE_VALUE_VOLTS 5
 
 
-/*
-const String channel_names[NUM_CHANNELS] = 
-{
-  ("AUX_0"),
-  ("MAIN0_0"),
-  ("MAIN1_0"),
-  ("MAIN2_0"),
-  ("AUX_1"),
-  ("MAIN0_1"),
-  ("MAIN1_1"),
-  ("MAIN2_1"),
-  ("AUX_2"),
-  ("MAIN0_2"),
-  ("MAIN1_2"),
-  ("MAIN2_2"),
-  ("AUX_3"),
-  ("MAIN0_3"),
-  ("MAIN1_3"),
-  ("MAIN2_3"),
-  ("AUX_4"),
-  ("MAIN0_4"),
-  ("MAIN1_4"),
-  ("MAIN2_4"),
-  ("AUX_5"),
-  ("MAIN0_5"),
-  ("MAIN1_5"),
-  ("MAIN2_5"),
-  ("AUX_6"),
-  ("MAIN0_6"),
-  ("MAIN1_6"),
-  ("MAIN2_6"),
-  ("AUX_7"),
-  ("MAIN0_7"),
-  ("MAIN1_7"),
-  ("MAIN2_7"),
-  ("AUX_8"),
-  ("MAIN0_8"),
-  ("MAIN1_8"),
-  ("MAIN2_8"),
-  ("AUX_9"),
-  ("MAIN0_9"),
-  ("MAIN1_9"),
-  ("MAIN2_9"),
-  ("AUX_10"),
-  ("MAIN0_10"),
-  ("MAIN1_10"),
-  ("MAIN2_10"),
-  ("AUX_11"),
-  ("MAIN0_11"),
-  ("MAIN1_11"),
-  ("MAIN2_11"),
-  ("AUX_12"),
-  ("MAIN0_12"),
-  ("MAIN1_12"),
-  ("MAIN2_12"),
-  ("AUX_13"),
-  ("MAIN0_13"),
-  ("MAIN1_13"),
-  ("MAIN2_13"),
-  ("AUX_14"),
-  ("MAIN0_14"),
-  ("MAIN1_14"),
-  ("MAIN2_14"),
-  ("AUX_15"),
-  ("MAIN0_15"),
-  ("MAIN1_15"),
-  ("MAIN2_15")
-};
-*/
-
 uint8_t channel_connected_device[NUM_CHANNELS] = 
 {
   VOLTAGE, //AUX 0
@@ -123,11 +53,11 @@ uint8_t channel_connected_device[NUM_CHANNELS] =
   NTC_NXRT15XH, //MAIN0 1 //3-2-B-N
   NTC_NXRT15XH,//MAIN1 1 //6-3-T-N
   NTC_NXRT15XH,//MAIN2 1 //8-1-T-N
-  V_DIV_2, //AUX 2 //SINGLE CELL VOLTAGE (CELL CLOSER TO GND)
+  V_DIV_2, //AUX 2 //V_CELL_1
   NTC_NXRT15XV,//MAIN0 2 //3-3-T-P
   NTC_NXRT15XV,//MAIN1 2 //5-1-B-P
   NTC_NXRT15XV,//MAIN2 2 //8-2-B-P
-  V_DIV_4, //AUX 3 //2S VOLTAGE
+  V_DIV_4, //AUX 3 //V_MODULE
   NTC_NXRT15XH,//MAIN0 3 //3-3-B-N
   NTC_NXRT15XH,//MAIN1 3 //5-1-T-N
   NTC_NXRT15XH,//MAIN2 3 //8-2-T-N

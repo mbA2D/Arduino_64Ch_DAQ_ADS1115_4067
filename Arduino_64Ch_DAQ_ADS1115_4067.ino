@@ -19,7 +19,7 @@ void setup(void)
 {
   Serial.begin(115200);
 
-  #ifdef ENABLE ADC
+  #ifdef ENABLE_ADC
     setup_ADC();
   #endif
 

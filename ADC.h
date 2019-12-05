@@ -29,7 +29,28 @@ void print_ADC_channel_titles(){
   Serial.print(F("AUX_12, MAIN0_12, MAIN1_12, MAIN2_12, "));
   Serial.print(F("AUX_13, MAIN0_13, MAIN1_13, MAIN2_13, "));
   Serial.print(F("AUX_14, MAIN0_14, MAIN1_14, MAIN2_14, "));
-  Serial.println(F("AUX_15, MAIN0_15, MAIN1_15, MAIN2_15"));
+  Serial.print(F("AUX_15, MAIN0_15, MAIN1_15, MAIN2_15"));
+  Serial.println("");
+}
+
+void print_ADC_channel_names(){
+  Serial.print(F("AUX_0, 3-2-T-P, 6-3-B-P, 8-1-B-P, "));
+  Serial.print(F("AUX_1, 3-2-B-N, 6-3-T-N, 8-1-T-N, "));
+  Serial.print(F("V_CELL_1, 3-3-T-P, 5-1-B-P, 8-2-B-P, "));
+  Serial.print(F("V_MODULE, 3-3-B-N, 5-1-T-N, 8-2-T-N, "));
+  Serial.print(F("AUX_4, 2-1-T-P, 5-2-B-P, 8-3-B-P, "));
+  Serial.print(F("AUX_5, 2-1-B-N, 5-2-T-N, 8-3-T-N, "));
+  Serial.print(F("AUX_6, 2-2-T-P, 5-3-T-N, 7-1-B-P, "));
+  Serial.print(F("AUX_7, 2-2-B-N, 5-3-T-N, 7-1-T-N, "));
+  Serial.print(F("AUX_8, 2-3-T-P, 4-1-T-P, 7-2-B-P, "));
+  Serial.print(F("AUX_9, 2-3-B-N, 4-1-B-N, 7-2-T-N, "));
+  Serial.print(F("AUX_10, 1-1-T-P, 4-2-T-P, 7-3-B-P, "));
+  Serial.print(F("AUX_11, 1-1-B-N, 4-2-B-N, 7-3-T-N, "));
+  Serial.print(F("AUX_12, 1-2-T-P, 4-3-T-P, 6-1-B-P, "));
+  Serial.print(F("AUX_13, 1-2-B-N, 4-3-B-N, 6-1-T-N, "));
+  Serial.print(F("AUX_14, 1-3-T-P, 3-1-T-P, 6-2-B-P, "));
+  Serial.print(F("AUX_15, 1-3-B-N, 3-1-B-N, 6-2-T-N"));
+  Serial.println("");
 }
 
 void setupPins_ADC(){
@@ -78,6 +99,7 @@ void set_channel_input(bool channel, uint8_t num){
 
 void setup_ADC(){
   print_ADC_channel_titles();
+  print_ADC_channel_names();
   setupPins_ADC();
   set_channel_input(MAIN_CHANNEL, 0);
   set_channel_input(AUX_CHANNEL, 0);
@@ -163,4 +185,3 @@ void channel_readings_to_proper_value(){
   for(int i = 0; i < NUM_CHANNELS; i++)
     channel_readings[i] = mV_to_proper_value(i, channel_readings[i]);
 }
-
