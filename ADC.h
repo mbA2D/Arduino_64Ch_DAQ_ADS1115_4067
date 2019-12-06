@@ -2,7 +2,7 @@
 #include <Adafruit_ADS1015.h>
 #include "Channel_Definitions.h"
 
-#define ADC_UPDATE_INTERVAL_MILLIS 500
+#define ADC_UPDATE_INTERVAL_MILLIS 1000
 
 long last_adc_update_millis = 0;
 int16_t adc0, adc1, adc2, adc3;
