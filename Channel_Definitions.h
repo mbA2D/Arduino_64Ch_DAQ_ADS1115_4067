@@ -22,7 +22,7 @@
 #define AUX_CHANNEL_S2 9
 #define AUX_CHANNEL_S3 10
 
-enum int{
+enum{
   NTC_NXRT15XH,
   NTC_NXRT15XV,
   V_DIV_2,
