@@ -4,30 +4,27 @@
 
 bool check_thresholds(int channel, int device)
 {
+  bool threshold_passed = false;
+  
   if(device == NTC_NXRT15XH)
     if(channel_readings[channel] > 60 || channel_readings[channel] < 15)
-      return true;
+      threshold_passed = true;
   else if (device == NTC_NXRT15XV)
-  {
     if(channel_readings[channel] > 60 || channel_readings[channel] < 15)
-      return true;
-  }
+      threshold_passed = true;
 
   //Li-ion undervotlage faults
   else if (device == V_DIV_2)
-  {
     if(channel_readings[channel] > 4202 || channel_readings[channel] < 2500)
-      return true;
-  }
+      threshold_passed = true;
 
   //THIS PART IS VERY MUCH HACKING IT TOGETHER - I should make something to compare channels to each other.
   //Channel 8 is the V_DIV_2 channel, measuring the low cell.
   else if (device == V_DIV_4)
-  {
     if((channel_readings[channel] - channel_readings[8] > 4202) || (channel_readings[channel] - channel_readings[8] < 2500))
-      return true;
-  }
-  return false;
+      threshold_passed = true;
+  
+  return threshold_passed;
 }
 
 
@@ -39,5 +36,5 @@ bool check_ADC_thresholds()
     if(warning_found) //return early if a warning is found
       return true;
   }
-  return false;
+  return warning_found;
 }

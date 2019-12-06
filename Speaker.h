@@ -1,9 +1,14 @@
+#define LED_MIRROR_SPEAKER
+
 #define SPEAKER_PIN 11
-#define LED_PIN 13
+
+#ifdef LED_MIRROR_SPEAKER
+  #define LED_PIN 13
+#endif
+
 #define TONE_FREQ_HZ 1000
 #define BEEP_INTERVAL_AND_LENGTH_MILLIS 500
 
-#define LED_MIRROR_SPEAKER
 
 bool speaker_enabled;
 bool speaker_on;
