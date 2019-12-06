@@ -2,7 +2,7 @@
 #include <Adafruit_ADS1015.h>
 #include "Channel_Definitions.h"
 
-#define ADC_UPDATE_INTERVAL_MILLIS 100
+#define ADC_UPDATE_INTERVAL_MILLIS 500
 
 long last_adc_update_millis = 0;
 int16_t adc0, adc1, adc2, adc3;
@@ -122,13 +122,14 @@ void update_channel_readings(){
   for(int i = 0; i < 16; i++){
     set_channel_input(MAIN_CHANNEL, i);
     set_channel_input(AUX_CHANNEL, i);
-    delayMicroseconds(10);
+    delayMicroseconds(5);
     update_ADC_readings();
     channel_readings[0 + 4 * i] = adc0;
     channel_readings[1 + 4 * i] = adc1;
     channel_readings[2 + 4 * i] = adc2;
     channel_readings[3 + 4 * i] = adc3;
   }
+  last_adc_update_millis = current_millis;
 }
 
 void print_channel_readings(){

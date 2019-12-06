@@ -4,6 +4,9 @@
 #define ENABLE_SPEAKER
 #define ENABLE_ADC
 
+long current_millis = 0;
+bool warning = false;
+
 #ifdef ENABLE_ADC
   #include "ADC.h"
 #endif
@@ -11,9 +14,6 @@
 #ifdef ENABLE_SPEAKER
   #include "Speaker.h"
 #endif
-
-long current_millis = 0;
-bool warning = false;
 
 void setup(void) 
 {
