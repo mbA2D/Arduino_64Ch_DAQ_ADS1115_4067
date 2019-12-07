@@ -14,12 +14,12 @@ bool check_thresholds(int channel, uint8_t device)
   else if (device == NTC_NXRT15XV){
     #ifdef HIGHER_CABLE_TEMP
       if(channel == CABLE_TEMP_CHANNEL_NUM){
-        if((channel_readings[channel] > 80) || (channel_readings[channel] < 15)){
+        if((channel_readings[channel] > 90) || (channel_readings[channel] < 15)){
           threshold_passed = true;
         }
-        else if((channel_readings[channel] > 60) || (channel_readings[channel] < 15)){
-          threshold_passed = true;
-        }
+      }
+      else if((channel_readings[channel] > 60) || (channel_readings[channel] < 15)){
+        threshold_passed = true;
       }
     #else
       if((channel_readings[channel] > 60) || (channel_readings[channel] < 15)){
