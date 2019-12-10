@@ -18,11 +18,20 @@ filename = get_file().name
 
 #https://janakiev.com/blog/csv-in-python/
 #https://www.dataquest.io/blog/numpy-tutorial-python/
-data = np.genfromtxt(filename, delimiter=',', dtype = 'float' ,names=True, skip_header=1)
+data = np.genfromtxt(filename, delimiter=',', dtype = 'float', names=True, skip_header=1)
 
 indexes = range(1, data['AUX_0'].size+1)
-#print (indexes)
-#print (data['AUX_0'])
+
+
+#see validating names section of this page: '-' gets removed: https://numpy.org/devdocs/user/basics.io.genfromtxt.html
+print (data["32TP"])
 # Plot the data
-plt.scatter(indexes, data['MAIN0_0'])
+fig, ax = plt.subplots()
+ax.plot(indexes, data['43TP'], 'b-', label = 'Interior Cell')
+ax.plot(indexes, data['11TP'], 'r-', label = 'Corner Cell')
+plt.legend(loc = 'best')
+plt.xlabel('Time (s)')
+plt.ylabel('Temperature (C)')
+plt.title('MSXIV Prototype Module under 100A Discharge - No Cooling')
+plt.grid()
 plt.show()
