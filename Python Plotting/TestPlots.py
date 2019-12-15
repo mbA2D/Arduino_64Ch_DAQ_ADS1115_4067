@@ -20,7 +20,6 @@ filename = get_file().name
 #https://www.dataquest.io/blog/numpy-tutorial-python/
 data = np.genfromtxt(filename, delimiter=',', dtype = 'float', names=True, skip_header=1)
 
-<<<<<<< HEAD
 #number of data points
 indexes = np.arange(0, data['AUX_0'].size)
 
@@ -28,13 +27,6 @@ indexes = np.arange(0, data['AUX_0'].size)
 # This section plots a graph of two different temperatures on the same axes.
 
 #see validating names section of this page: '-' gets removed: https://numpy.org/devdocs/user/basics.io.genfromtxt.html
-=======
-indexes = range(1, data['AUX_0'].size+1)
-
-
-#see validating names section of this page: '-' gets removed: https://numpy.org/devdocs/user/basics.io.genfromtxt.html
-print (data["32TP"])
->>>>>>> master
 # Plot the data
 fig, ax = plt.subplots()
 ax.plot(indexes, data['43TP'], 'b-', label = 'Interior Cell')
@@ -44,7 +36,6 @@ plt.xlabel('Time (s)')
 plt.ylabel('Temperature (C)')
 plt.title('MSXIV Prototype Module under 100A Discharge - No Cooling')
 plt.grid()
-<<<<<<< HEAD
 plt.show()
 '''
 
@@ -85,9 +76,6 @@ plt.show()
 '''
 
 
-#for reference: Fan speed with Noctua: 6.1m/s, Qualtek: 3.8m/s through the opening of the UT363 BT airflow sensor (30mm diameter circle)
-#									   0.311A @ 12V	    0.166A @12V
-
 # This section will hopefully create a better heat map
 cell_temps = np.zeros((indexes.size, 6, 8))
 
@@ -122,6 +110,3 @@ cbar.set_label('Degrees C')
 ax.set_title('Module Temperature Distribution - Standard 120mm Fan')
 
 plt.show()
-=======
-plt.show()
->>>>>>> master
