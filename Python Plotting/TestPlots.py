@@ -20,6 +20,7 @@ filename = get_file().name
 #https://www.dataquest.io/blog/numpy-tutorial-python/
 data = np.genfromtxt(filename, delimiter=',', dtype = 'float', names=True, skip_header=1)
 
+<<<<<<< HEAD
 #number of data points
 indexes = np.arange(0, data['AUX_0'].size)
 
@@ -27,6 +28,13 @@ indexes = np.arange(0, data['AUX_0'].size)
 # This section plots a graph of two different temperatures on the same axes.
 
 #see validating names section of this page: '-' gets removed: https://numpy.org/devdocs/user/basics.io.genfromtxt.html
+=======
+indexes = range(1, data['AUX_0'].size+1)
+
+
+#see validating names section of this page: '-' gets removed: https://numpy.org/devdocs/user/basics.io.genfromtxt.html
+print (data["32TP"])
+>>>>>>> master
 # Plot the data
 fig, ax = plt.subplots()
 ax.plot(indexes, data['43TP'], 'b-', label = 'Interior Cell')
@@ -36,6 +44,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Temperature (C)')
 plt.title('MSXIV Prototype Module under 100A Discharge - No Cooling')
 plt.grid()
+<<<<<<< HEAD
 plt.show()
 '''
 
@@ -113,3 +122,6 @@ cbar.set_label('Degrees C')
 ax.set_title('Module Temperature Distribution - Standard 120mm Fan')
 
 plt.show()
+=======
+plt.show()
+>>>>>>> master
