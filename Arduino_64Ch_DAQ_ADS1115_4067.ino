@@ -45,8 +45,13 @@ void loop(void)
 
   #ifdef ENABLE_SPEAKER
   speaker_enabled = warning;
-  if(speaker_enabled)
-    if(current_millis - last_speaker_change_millis > BEEP_INTERVAL_AND_LENGTH_MILLIS)
+  if(speaker_enabled){
+    if(current_millis - last_speaker_change_millis > BEEP_INTERVAL_AND_LENGTH_MILLIS){
       update_speaker();
+    }
+  }
+  else{
+    end_beep();
+  }
   #endif
 }
