@@ -136,7 +136,8 @@ void print_channel_readings(){
   for(int i = 0; i < NUM_CHANNELS; i++)
   {
     Serial.print(channel_readings[i]);
-    Serial.print(",");
+    if(i != NUM_CHANNELS-1)
+		Serial.print(",");
   }
   Serial.println("");
 }
