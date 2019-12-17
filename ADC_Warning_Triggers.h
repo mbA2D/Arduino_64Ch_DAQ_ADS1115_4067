@@ -14,7 +14,7 @@ bool check_thresholds(int channel, uint8_t device)
   else if (device == NTC_NXRT15XV){
     #ifdef HIGHER_CABLE_TEMP
       if(channel == CABLE_TEMP_CHANNEL_NUM){
-        if((channel_readings[channel] > 90) || (channel_readings[channel] < 15)){
+        if((channel_readings[channel] > 100) || (channel_readings[channel] < 15)){
           threshold_passed = true;
         }
       }
@@ -30,14 +30,14 @@ bool check_thresholds(int channel, uint8_t device)
 
   //Li-ion undervotlage faults
   else if (device == V_DIV_2){
-    if((channel_readings[channel] > 4202) || (channel_readings[channel] < 2500))
+    if((channel_readings[channel] > 4170) || (channel_readings[channel] < 2900))
       threshold_passed = true;
   }
 
   //THIS PART IS VERY MUCH HACKING IT TOGETHER - I should make something to compare channels to each other.
   //Channel 8 is the V_DIV_2 channel, measuring the low cell.
   else if (device == V_DIV_4){
-    if(((channel_readings[channel] - channel_readings[8]) > 4202) || ((channel_readings[channel] - channel_readings[8]) < 2500))
+    if(((channel_readings[channel] - channel_readings[8]) > 4170) || ((channel_readings[channel] - channel_readings[8]) < 2900))
       threshold_passed = true;
   }
   
