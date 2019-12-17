@@ -116,6 +116,6 @@ fig, ax = plt.subplots()
 im = ax.imshow(cell_temps[max_temp_index], interpolation='hermite', cmap='jet')
 cbar = fig.colorbar(im)
 cbar.set_label('Degrees C')
-ax.set_title('Module Temperature Distribution - 15A Discharge No Fan')
+ax.set_title('Module Temperature Distribution - 75A Discharge No Fan')
 
 plt.show()
