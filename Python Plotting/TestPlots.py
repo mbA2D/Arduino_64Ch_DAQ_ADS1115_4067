@@ -34,7 +34,7 @@ ax.plot(indexes, data['11TP'], 'r-', label = 'Corner Cell')
 plt.legend(loc = 'best')
 plt.xlabel('Time (s)')
 plt.ylabel('Temperature (C)')
-plt.title('MSXIV Prototype Module under 100A Discharge - No Cooling')
+plt.title('MSXIV Prototype Module 100A Discharge - Noctua 120mm Fan')
 plt.grid()
 plt.show()
 '''
@@ -79,19 +79,28 @@ plt.show()
 # This section will hopefully create a better heat map
 cell_temps = np.zeros((indexes.size, 6, 8))
 
+max_temp_index = 0
+max_temp = 0
+
 #fill the cell temps
 for index in indexes:
 	for width in np.arange(0, 4):
 		for length in np.arange(0, 3):
 			cell_temps[index][length][width] = data[f'{width+1}{length+1}TP'][index]
 			cell_temps[index][5-length][width] = data[f'{width+1}{length+1}TP'][index]
+			if(cell_temps[index][length][width] > max_temp):
+				max_temp = cell_temps[index][length][width]
+				max_temp_index = index
 	for width in np.arange(4, 8):
 		for length in np.arange(0, 3):
 			cell_temps[index][length][width] = data[f'{width+1}{length+1}TN'][index]
 			cell_temps[index][5-length][width] = data[f'{width+1}{length+1}TN'][index]
+			if(cell_temps[index][length][width] > max_temp):
+				max_temp = cell_temps[index][length][width]
+				max_temp_index = index
 			
 #the array should now be filled with our values.
-print(cell_temps[2200])
+print(cell_temps[max_temp_index])
 
 
 air_temps = np.zeros((indexes.size, 9))
@@ -100,13 +109,13 @@ for index in indexes:
 	for loc in np.arange(0, 9):
 		air_temps[index][loc] = data[f'MODULE_AIR_T{loc+1}'][index]
 
-print(air_temps[2200])
+print(air_temps[max_temp_index])
 
 fig, ax = plt.subplots()
 
-im = ax.imshow(cell_temps[2200], interpolation='hermite', cmap='jet')
+im = ax.imshow(cell_temps[max_temp_index], interpolation='hermite', cmap='jet')
 cbar = fig.colorbar(im)
 cbar.set_label('Degrees C')
-ax.set_title('Module Temperature Distribution - Standard 120mm Fan')
+ax.set_title('Module Temperature Distribution - 15A Discharge No Fan')
 
 plt.show()
