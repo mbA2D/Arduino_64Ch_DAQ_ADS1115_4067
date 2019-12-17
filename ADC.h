@@ -137,7 +137,7 @@ void print_channel_readings(){
   {
     Serial.print(channel_readings[i]);
     if(i != NUM_CHANNELS-1)
-		Serial.print(",");
+		  Serial.print(",");
   }
   Serial.println("");
 }
