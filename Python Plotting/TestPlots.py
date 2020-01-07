@@ -182,6 +182,7 @@ elif(user_input == 4):
 	cell_temps = np.zeros((indexes.size, 3, 8))
 	cell_temps_bottom = np.zeros((indexes.size, 3, 8))
 	cell_temp_average = np.array([])
+	cell_temp_average_above_amb = np.array([])
 	heat_rejection = np.array([])
 	
 	#fill the cell temps
@@ -206,15 +207,28 @@ elif(user_input == 4):
 		
 		average_temp /= num_cells
 		cell_temp_average = np.append(cell_temp_average, average_temp)
+		cell_temp_average_above_amb = np.append(cell_temp_average_above_amb, average_temp - data['EXT_TEMP_1'][index])
 		
 		heat_w = calc_heat_rejection(air_flow_m3_h, data['EXT_TEMP_1'][index], data['EXT_TEMP_2'][index])
 		heat_rejection = np.append(heat_rejection, heat_w)
 
+
+	#linear fit for rate of heat rejection
+	#https://stackoverflow.com/questions/6148207/linear-regression-with-matplotlib-numpy
+	coef = np.polyfit(cell_temp_average_above_amb, heat_rejection, 1)
+	print('Heat = ' + str(coef[0]) + ' x Cell Temp + ' + str(coef[1]))
+	poly1d_fn = np.poly1d(coef)
+	
+	#plotting the graphs
 	fig, ax = plt.subplots()
 
-	ax.plot(cell_temp_average, heat_rejection, 'b-')
+	cell_temp_dist = np.arange(np.amin(cell_temp_average_above_amb)-1, np.amax(cell_temp_average_above_amb)+1)
+	ax.plot(cell_temp_average_above_amb, heat_rejection, 'bo')
+	ax.plot(cell_temp_dist, poly1d_fn(cell_temp_dist), 'r-')
 	title = 'Module Heat Rejection ' + title_input
 	ax.set_title(title + ' at ' + str(air_flow_m3_h) + ' m3/h')
+	ax.set_ylabel('Heat Rejection (W)')
+	ax.set_xlabel('Cell Temp Above Amb (Deg C)')
 	
 	
 plt.grid()
