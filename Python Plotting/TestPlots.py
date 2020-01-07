@@ -15,14 +15,14 @@ root.withdraw()
 def calc_heat_rejection(airflow_m3_h, input_temp_c, output_temp_c):
 	#1005 is the specific heat capacity of the air in J/KGdegC
 	#1.18 is the density of air in Kg/m3
-	heat_w = airflow_m3_h * 1005 * 1.18 * (output_temp_c = input_temp_c)
+	heat_w = airflow_m3_h * 1005 * 1.18 * (output_temp_c - input_temp_c) / 3600
 	return heat_w
 
 
 def get_file():
 	return askopenfile(mode = 'r', filetypes = [('CSV Files', '*.csv')], title = 'Choose your data file to plot')
 filename = get_file().name
-#root.close()
+root.destroy()
 
 user_input = eval(input("Which graph do you want to show?\n1 = Temperature Rise\n2 = Heatmap\n3 = Top Bottom Temp Difference\n4 = Heat Rejection\n"))
 title_input = input("What is the title of the graph?\n")
@@ -182,7 +182,7 @@ elif(user_input == 4):
 	cell_temps = np.zeros((indexes.size, 3, 8))
 	cell_temps_bottom = np.zeros((indexes.size, 3, 8))
 	cell_temp_average = np.array([])
-	heat_rection = np.array([])
+	heat_rejection = np.array([])
 	
 	#fill the cell temps
 	for index in indexes:
@@ -208,13 +208,13 @@ elif(user_input == 4):
 		cell_temp_average = np.append(cell_temp_average, average_temp)
 		
 		heat_w = calc_heat_rejection(air_flow_m3_h, data['EXT_TEMP_1'][index], data['EXT_TEMP_2'][index])
-		heat_rection = np.append(heat_rection, heat_w)
+		heat_rejection = np.append(heat_rejection, heat_w)
 
 	fig, ax = plt.subplots()
 
 	ax.plot(cell_temp_average, heat_rejection, 'b-')
-	title = 'Module Heat Rejection ' + title_input + ' at ' + air_flow_m3_h + ' m3/h'
-	ax.set_title(title)
+	title = 'Module Heat Rejection ' + title_input
+	ax.set_title(title + ' at ' + str(air_flow_m3_h) + ' m3/h')
 	
 	
 plt.grid()
