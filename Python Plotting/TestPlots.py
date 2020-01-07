@@ -12,12 +12,19 @@ from tkinter.filedialog import askopenfile
 root = Tk()
 root.withdraw()
 
+def calc_heat_rejection(airflow_m3_h, input_temp_c, output_temp_c):
+	#1005 is the specific heat capacity of the air in J/KGdegC
+	#1.18 is the density of air in Kg/m3
+	heat_w = airflow_m3_h * 1005 * 1.18 * (output_temp_c = input_temp_c)
+	return heat_w
+
+
 def get_file():
 	return askopenfile(mode = 'r', filetypes = [('CSV Files', '*.csv')], title = 'Choose your data file to plot')
 filename = get_file().name
 #root.close()
 
-user_input = eval(input("Which graph do you want to show?\n1 = Temperature Rise\n2 = Heatmap\n3 = Top Bottom Temp Difference\n"))
+user_input = eval(input("Which graph do you want to show?\n1 = Temperature Rise\n2 = Heatmap\n3 = Top Bottom Temp Difference\n4 = Heat Rejection\n"))
 title_input = input("What is the title of the graph?\n")
 
 
@@ -150,7 +157,6 @@ elif(user_input == 3):
 		for i2 in np.arange(0,8):
 			cell_temp_diffs = np.append(cell_temp_diffs, cell_temp_diff[i1][i2])
 	
-	print(cell_temp_diffs.size)
 	temp_indexes = np.arange(0,cell_temp_diffs.size,1)
 
 	#air temperatures
@@ -166,6 +172,51 @@ elif(user_input == 3):
 	title = 'Temp Difference Top Bottom ' + title_input
 	ax.set_title(title)
 
+elif(user_input == 4):
+	#heat rejection graph
+	#average cell temperature vs amount of heat removed from the module
+	air_speed_m_s = eval(input("Enter Airflow in m/s \n"))
+	air_duct_diameter_mm = 30
+	air_flow_m3_h = ((air_duct_diameter_mm / 2)**2 * math.pi) * air_speed_m_s / 1000 / 1000 * 3600
+	
+	cell_temps = np.zeros((indexes.size, 3, 8))
+	cell_temps_bottom = np.zeros((indexes.size, 3, 8))
+	cell_temp_average = np.array([])
+	heat_rection = np.array([])
+	
+	#fill the cell temps
+	for index in indexes:
+		num_cells = 0
+		average_temp = 0
+		
+		for width in np.arange(0, 4):
+			for length in np.arange(0, 3):
+				cell_temps[index][length][width] = data[f'{width+1}{length+1}TP'][index]
+				cell_temps_bottom[index][length][width] = data[f'{width+1}{length+1}BN'][index]
+				num_cells += 2
+				average_temp += cell_temps[index][length][width]
+				average_temp += cell_temps_bottom[index][length][width]
+		for width in np.arange(4, 8):
+			for length in np.arange(0, 3):
+				cell_temps[index][length][width] = data[f'{width+1}{length+1}TN'][index]
+				cell_temps_bottom[index][length][width] = data[f'{width+1}{length+1}BP'][index]
+				num_cells += 2
+				average_temp += cell_temps[index][length][width]
+				average_temp += cell_temps_bottom[index][length][width]
+		
+		average_temp /= num_cells
+		cell_temp_average = np.append(cell_temp_average, average_temp)
+		
+		heat_w = calc_heat_rejection(air_flow_m3_h, data['EXT_TEMP_1'][index], data['EXT_TEMP_2'][index])
+		heat_rection = np.append(heat_rection, heat_w)
 
+	fig, ax = plt.subplots()
+
+	ax.plot(cell_temp_average, heat_rejection, 'b-')
+	title = 'Module Heat Rejection ' + title_input + ' at ' + air_flow_m3_h + ' m3/h'
+	ax.set_title(title)
+	
+	
+plt.grid()
 plt.savefig(title)
 plt.show()
