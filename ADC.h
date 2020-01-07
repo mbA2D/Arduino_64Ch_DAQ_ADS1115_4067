@@ -40,7 +40,7 @@ void print_ADC_channel_names(){
   Serial.print(F("V_MODULE, 3-3-B-N, 5-1-T-N, 8-2-T-N, "));
   Serial.print(F("CABLE_TEMP, 2-1-T-P, 5-2-B-P, 8-3-B-P, "));
   Serial.print(F("MODULE_AIR_T1, 2-1-B-N, 5-2-T-N, 8-3-T-N, "));
-  Serial.print(F("MODULE_AIR_T2, 2-2-T-P, 5-3-T-N, 7-1-B-P, "));
+  Serial.print(F("MODULE_AIR_T2, 2-2-T-P, 5-3-B-P, 7-1-B-P, "));
   Serial.print(F("MODULE_AIR_T3, 2-2-B-N, 5-3-T-N, 7-1-T-N, "));
   Serial.print(F("MODULE_AIR_T4, 2-3-T-P, 4-1-T-P, 7-2-B-P, "));
   Serial.print(F("MODULE_AIR_T5, 2-3-B-N, 4-1-B-N, 7-2-T-N, "));

@@ -15,8 +15,9 @@ root.withdraw()
 def get_file():
 	return askopenfile(mode = 'r', filetypes = [('CSV Files', '*.csv')], title = 'Choose your data file to plot')
 filename = get_file().name
+#root.close()
 
-user_input = eval(input("Which graph do you want to show?\n1 = Temperature Rise\n2 = Heatmap\n"))
+user_input = eval(input("Which graph do you want to show?\n1 = Temperature Rise\n2 = Heatmap\n3 = Top Bottom Temp Difference\n"))
 title_input = input("What is the title of the graph?\n")
 
 
@@ -28,13 +29,41 @@ data = np.genfromtxt(filename, delimiter=',', dtype = 'float', names=True, skip_
 indexes = np.arange(0, data['AUX_0'].size)
 
 if(user_input == 1):
-	# This section plots a graph of two different temperatures on the same axes.
+	# This section plots a graph of different temperatures on the same axes.
 
 	#see validating names section of this page: '-' gets removed: https://numpy.org/devdocs/user/basics.io.genfromtxt.html
 	# Plot the data
 	fig, ax = plt.subplots()
+	
+	temp_rise_rates = np.array([])
+	
+	data_names = np.array([])
+	end_char = " "
+	for i1 in range(1,9):
+		for i2 in range(1,4):
+			string = ""
+			if (i1 < 5):
+				end_char = "P"
+			else:
+				end_char = "N"
+				
+			string = (f"{str(i1)}{str(i2)}T{end_char}")
+			if(i1 == 1 and i2 == 1 or i1 == 4 and i2 == 3):
+				pass
+			else:
+				data_names = np.append(data_names, string)
+			#do the averaging calculation here
+			temp_rise_rate = ((data[string][2450] - data[string][2500]) / (2450-2500))
+			temp_rise_rates = np.append(temp_rise_rates, temp_rise_rate)
+	
+	print (np.average(temp_rise_rates))
+	
+	for data_name in data_names:
+		ax.plot(indexes, data[data_name], 'g-')
+	
 	ax.plot(indexes, data['43TP'], 'b-', label = 'Interior Cell')
 	ax.plot(indexes, data['11TP'], 'r-', label = 'Corner Cell')
+	
 	plt.legend(loc = 'best')
 	plt.xlabel('Time (s)')
 	plt.ylabel('Temperature (C)')
@@ -70,7 +99,6 @@ elif(user_input == 2):
 	#the array should now be filled with our values.
 	print(cell_temps[max_temp_index])
 
-
 	air_temps = np.zeros((indexes.size, 9))
 
 	for index in indexes:
@@ -86,6 +114,58 @@ elif(user_input == 2):
 	cbar.set_label('Degrees C')
 	title = 'Module Temperature Distribution ' + title_input
 	ax.set_title(title)
+
+
+elif(user_input == 3):
+	# This section will hopefully create a better heat map
+	cell_temps = np.zeros((indexes.size, 3, 8))
+	cell_temps_bottom = np.zeros((indexes.size, 3, 8))
+
+	cell_temp_diff = np.zeros((3,8))
+
+	max_temp_index = 0
+	max_temp = 0
+
+	#fill the cell temps
+	for index in indexes:
+		for width in np.arange(0, 4):
+			for length in np.arange(0, 3):
+				cell_temps[index][length][width] = data[f'{width+1}{length+1}TP'][index]
+				cell_temps_bottom[index][length][width] = data[f'{width+1}{length+1}BN'][index]
+				if(cell_temps[index][length][width] > max_temp):
+					max_temp = cell_temps[index][length][width]
+					max_temp_index = index
+		for width in np.arange(4, 8):
+			for length in np.arange(0, 3):
+				cell_temps[index][length][width] = data[f'{width+1}{length+1}TN'][index]
+				cell_temps_bottom[index][length][width] = data[f'{width+1}{length+1}BP'][index]
+				if(cell_temps[index][length][width] > max_temp):
+					max_temp = cell_temps[index][length][width]
+					max_temp_index = index
+
+	cell_temp_diff = np.subtract(cell_temps[max_temp_index], cell_temps_bottom[max_temp_index])
+	
+	cell_temp_diffs = np.array([])
+	for i1 in np.arange(0,3):
+		for i2 in np.arange(0,8):
+			cell_temp_diffs = np.append(cell_temp_diffs, cell_temp_diff[i1][i2])
+	
+	print(cell_temp_diffs.size)
+	temp_indexes = np.arange(0,cell_temp_diffs.size,1)
+
+	#air temperatures
+	air_temps = np.zeros((indexes.size, 9))
+	for index in indexes:
+		for loc in np.arange(0, 9):
+			air_temps[index][loc] = data[f'MODULE_AIR_T{loc+1}'][index]
+	print(air_temps[max_temp_index])
+
+	fig, ax = plt.subplots()
+
+	ax.plot(temp_indexes, cell_temp_diffs, 'bo')
+	title = 'Temp Difference Top Bottom ' + title_input
+	ax.set_title(title)
+
 
 plt.savefig(title)
 plt.show()
