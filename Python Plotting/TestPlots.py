@@ -224,13 +224,15 @@ elif(user_input == 4):
 
 	cell_temp_dist = np.arange(np.amin(cell_temp_average_above_amb)-1, np.amax(cell_temp_average_above_amb)+1)
 	ax.plot(cell_temp_average_above_amb, heat_rejection, 'bo')
-	ax.plot(cell_temp_dist, poly1d_fn(cell_temp_dist), 'r-')
+	ax.plot(cell_temp_dist, poly1d_fn(cell_temp_dist), 'r-', label = f'Heat = {round(coef[0], 3)} * Temp + {round(coef[1], 3)}')
 	title = 'Module Heat Rejection ' + title_input
 	ax.set_title(title + ' at ' + str(air_flow_m3_h) + ' m3/h')
 	ax.set_ylabel('Heat Rejection (W)')
 	ax.set_xlabel('Cell Temp Above Amb (Deg C)')
-	
-	
+
+
+
+plt.legend(loc = 'best')
 plt.grid()
 plt.savefig(title)
 plt.show()
